@@ -2,35 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Search Portal</title>
+  <title>Reflected XSS Demo</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f5f5f5; }
-    h1 { color: #333; }
-    input[type="text"] { padding: 10px; width: 300px; font-size: 16px; }
-    button { padding: 10px 20px; margin-left: 10px; }
-    #results { margin-top: 20px; font-size: 18px; }
+    body { font-family: Arial, sans-serif; padding: 20px; background: #eee; }
+    h1 { color: #444; }
+    textarea { width: 300px; height: 50px; font-size: 16px; }
+    button { padding: 10px 20px; }
+    #result { margin-top: 20px; }
     #flag { display: none; }
   </style>
 </head>
 <body>
-  <h1>Welcome to Secure Search</h1>
-  <form method="GET" action="">
-    <input type="text" name="q" placeholder="Search..." />
-    <button type="submit">Search</button>
+  <h1>Search Page</h1>
+  <form id="searchForm">
+    <textarea id="input" placeholder="Type your query"></textarea><br>
+    <button type="submit">Submit</button>
   </form>
 
-  <div id="results">
-    <p>Search results for: <span id="output"></span></p>
+  <div id="result">
+    Search results for: <span id="output"></span>
   </div>
 
   <div id="flag">FLAG{reflected_xss_works}</div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const q = params.get("q");
-    if (q) {
-      document.getElementById("output").innerHTML = q; // ❌ Reflected XSS here
-    }
+    document.getElementById("searchForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const userInput = document.getElementById("input").value;
+      document.getElementById("output").innerHTML = userInput; // XSS HERE
+    });
   </script>
 </body>
 </html>
