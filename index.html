@@ -10,20 +10,22 @@
 <body>
 
   <h2>Reflected XSS Demo</h2>
-  <p>Enter input through the URL query like <code>?input=&lt;script&gt;alertFlag()&lt;/script&gt;</code></p>
+  <p>Enter input through the URL query like:<br>
+  <code>?input=alertFlag()</code></p>
   <div id="output"></div>
 
   <script>
     function alertFlag() {
-      alert("THM{Reflected_XSS_Flag}");
+      alert("🎉 Flag: THM{Reflected_XSS_Flag}");
     }
 
     const params = new URLSearchParams(window.location.search);
     const input = params.get("input");
 
     if (input) {
-      const decoded = decodeURIComponent(input);
-      document.getElementById("output").innerHTML = decoded; // XSS vulnerable
+      document.getElementById("output").textContent = input;
+      // Dangerous eval simulating XSS
+      eval(input); // ⚠️ Intentionally insecure for CTF purposes
     }
   </script>
 
