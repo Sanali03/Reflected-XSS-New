@@ -1,28 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Reflected XSS Demo</title>
+  <title>Reflected XSS</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 30px; background-color: #f4f4f4; }
-    h1 { color: #333; }
-    #flag { display: none; }
+    body { font-family: sans-serif; padding: 40px; background: #f0f0f0; }
+    #output { margin-top: 20px; background: #fff; padding: 10px; border: 1px solid #ccc; }
   </style>
 </head>
 <body>
-  <h1>Welcome to Secure Search</h1>
-  <p>Search results for: <span id="output">None</span></p>
 
-  <div id="flag">FLAG{reflected_xss_works}</div>
+  <h2>Reflected XSS Demo</h2>
+  <p>Enter input through the URL query like <code>?input=&lt;script&gt;alertFlag()&lt;/script&gt;</code></p>
+  <div id="output"></div>
 
   <script>
+    function alertFlag() {
+      alert("THM{Reflected_XSS_Flag}");
+    }
+
     const params = new URLSearchParams(window.location.search);
-    const q = params.get("q");
-    if (q) {
-      // WARNING: This is vulnerable and for educational use only
-      const output = document.getElementById("output");
-      output.innerHTML = q; // Will run <script> if allowed by browser
+    const userInput = params.get("input");
+
+    if (userInput) {
+      document.getElementById("output").innerHTML = userInput; // VULNERABLE!
     }
   </script>
+
 </body>
 </html>
