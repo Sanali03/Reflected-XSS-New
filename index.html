@@ -19,8 +19,9 @@
     const params = new URLSearchParams(window.location.search);
     const q = params.get("q");
     if (q) {
-      // Vulnerable line – injects unescaped input into the DOM
-      document.getElementById("output").innerHTML = q;
+      // WARNING: This is vulnerable and for educational use only
+      const output = document.getElementById("output");
+      output.innerHTML = q; // Will run <script> if allowed by browser
     }
   </script>
 </body>
