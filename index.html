@@ -19,10 +19,11 @@
     }
 
     const params = new URLSearchParams(window.location.search);
-    const userInput = params.get("input");
+    const input = params.get("input");
 
-    if (userInput) {
-      document.getElementById("output").innerHTML = userInput; // VULNERABLE!
+    if (input) {
+      const decoded = decodeURIComponent(input);
+      document.getElementById("output").innerHTML = decoded; // XSS vulnerable
     }
   </script>
 
