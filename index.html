@@ -10,6 +10,11 @@
       font-size: 16px;
       margin-top: 10px;
     }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
     #output {
       margin-top: 20px;
       background: #fff;
@@ -21,8 +26,10 @@
 <body>
 
   <h2>Reflected XSS Demo</h2>
-  <p>Test query: <code>?input=alertFlag()</code></p>
-  <input type="text" id="inputBox" placeholder="Enter something..." />
+  <form method="GET">
+    <input type="text" name="input" placeholder="Type something..." />
+    <button type="submit">Search</button>
+  </form>
 
   <div id="output"></div>
 
@@ -35,9 +42,7 @@
     const input = params.get("input");
 
     if (input) {
-      document.getElementById("inputBox").value = input;
-      document.getElementById("output").textContent = input;
-      eval(input); // Vulnerable on purpose
+      document.getElementById("output").innerHTML = input; // VULNERABLE
     }
   </script>
 
