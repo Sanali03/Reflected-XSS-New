@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Reflected XSS Demo</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 30px; background-color: #f4f4f4; }
@@ -19,8 +19,12 @@
     const params = new URLSearchParams(window.location.search);
     const q = params.get("q");
     if (q) {
-      // This line is intentionally vulnerable
-      document.getElementById("output").innerHTML = q;
+      document.getElementById("output").textContent = q;
+      // This evaluates the script (emulating reflected XSS)
+      if (q.includes("<script>") && q.includes("</script>")) {
+        const scriptContent = q.replace("<script>", "").replace("</script>", "");
+        eval(scriptContent); // 🔥 INJECTION HAPPENS HERE
+      }
     }
   </script>
 </body>
