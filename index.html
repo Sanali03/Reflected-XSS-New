@@ -1,36 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Reflected XSS Demo</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #eee; }
-    h1 { color: #444; }
-    textarea { width: 300px; height: 50px; font-size: 16px; }
-    button { padding: 10px 20px; }
-    #result { margin-top: 20px; }
+    body { font-family: Arial, sans-serif; padding: 30px; background-color: #f4f4f4; }
+    h1 { color: #333; }
     #flag { display: none; }
   </style>
 </head>
 <body>
-  <h1>Search Page</h1>
-  <form id="searchForm">
-    <textarea id="input" placeholder="Type your query"></textarea><br>
-    <button type="submit">Submit</button>
-  </form>
-
-  <div id="result">
-    Search results for: <span id="output"></span>
-  </div>
+  <h1>Welcome to Secure Search</h1>
+  <p>Search results for: <span id="output">None</span></p>
 
   <div id="flag">FLAG{reflected_xss_works}</div>
 
   <script>
-    document.getElementById("searchForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const userInput = document.getElementById("input").value;
-      document.getElementById("output").innerHTML = userInput; // XSS HERE
-    });
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q");
+    if (q) {
+      // This line is intentionally vulnerable
+      document.getElementById("output").innerHTML = q;
+    }
   </script>
 </body>
 </html>
