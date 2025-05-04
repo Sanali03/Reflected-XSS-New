@@ -4,14 +4,26 @@
   <title>Reflected XSS</title>
   <style>
     body { font-family: sans-serif; padding: 40px; background: #f0f0f0; }
-    #output { margin-top: 20px; background: #fff; padding: 10px; border: 1px solid #ccc; }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    #output {
+      margin-top: 20px;
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
   </style>
 </head>
 <body>
 
   <h2>Reflected XSS Demo</h2>
-  <p>Enter input through the URL query like:<br>
-  <code>?input=alertFlag()</code></p>
+  <p>Test query: <code>?input=alertFlag()</code></p>
+  <input type="text" id="inputBox" placeholder="Enter something..." />
+
   <div id="output"></div>
 
   <script>
@@ -23,9 +35,9 @@
     const input = params.get("input");
 
     if (input) {
+      document.getElementById("inputBox").value = input;
       document.getElementById("output").textContent = input;
-      // Dangerous eval simulating XSS
-      eval(input); // ⚠️ Intentionally insecure for CTF purposes
+      eval(input); // Vulnerable on purpose
     }
   </script>
 
