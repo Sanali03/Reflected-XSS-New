@@ -2,33 +2,13 @@
 <html>
 <head>
   <title>Reflected XSS</title>
-  <style>
-    body { font-family: sans-serif; padding: 40px; background: #f0f0f0; }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-    #output {
-      margin-top: 20px;
-      background: #fff;
-      padding: 10px;
-      border: 1px solid #ccc;
-    }
-  </style>
 </head>
 <body>
-
   <h2>Reflected XSS Demo</h2>
+
   <form method="GET">
-    <input type="text" name="input" placeholder="Type something..." />
-    <button type="submit">Search</button>
+    <input type="text" name="input" placeholder="Try: &lt;script&gt;alertFlag()&lt;/script&gt;" />
+    <button type="submit">Go</button>
   </form>
 
   <div id="output"></div>
@@ -45,6 +25,5 @@
       document.getElementById("output").innerHTML = input; // VULNERABLE
     }
   </script>
-
 </body>
 </html>
