@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Search Portal</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #f5f5f5; }
@@ -20,19 +20,17 @@
   </form>
 
   <div id="results">
-    <p>Search results for: <strong>
-      <!-- ❌ XSS VULNERABILITY: Reflecting unsanitized input -->
-      <script>
-        const params = new URLSearchParams(window.location.search);
-        const q = params.get("q");
-        if (q) {
-          document.write(q); // ⚠️ vulnerable method that executes HTML and JS
-        }
-      </script>
-    </strong></p>
+    <p>Search results for: <span id="output"></span></p>
   </div>
 
-  <!-- Hidden flag element -->
   <div id="flag">FLAG{reflected_xss_works}</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q");
+    if (q) {
+      document.getElementById("output").innerHTML = q; // ❌ Reflected XSS here
+    }
+  </script>
 </body>
 </html>
